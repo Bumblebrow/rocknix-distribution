@@ -2,10 +2,10 @@
 # Copyright (C) 2024-present ROCKNIX (https://github.com/ROCKNIX)
 
 PKG_NAME="xemu-sa"
-PKG_VERSION="1973482781c120ceae88e2e0d89fa522b35b9639"
+PKG_VERSION="v0.8.108"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/xemu-project/xemu"
-PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
+PKG_URL="${PKG_SITE}/archive/refs/tags/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libthai gtk3 libsamplerate libpcap atk SDL2 Python3 zlib pixman bzip2 openssl xwayland libslirp"
 PKG_LONGDESC="Xemu - A free and open-source application that emulates the original Microsoft Xbox game console."
 PKG_TOOLCHAIN="make"
@@ -29,7 +29,7 @@ pre_configure_target() {
   export TARGET_CXXFLAGS=$(echo ${TARGET_CXXFLAGS} | sed -e "s|-DNDEBUG||g")
   export CFLAGS=$(echo ${CFLAGS} | sed -e "s|-DNDEBUG||g")
   export CXXFLAGS=$(echo ${CXXFLAGS} | sed -e "s|-DNDEBUG||g")
-
+  export XEMU_VERSION=${PKG_VERSION}
   # Required for python
   export DONT_BUILD_LEGACY_PYC=1
 
