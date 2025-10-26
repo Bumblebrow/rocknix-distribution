@@ -82,13 +82,7 @@ EOF
     sed -i "s#wifi.enabled=0#wifi.enabled=1#g" ${INSTALL}/usr/config/system/configs/system.cfg
     sed -i "s#system.loglevel=none#system.loglevel=verbose#g" ${INSTALL}/usr/config/system/configs/system.cfg
   fi
-
-  ### Disable automount on AMD64
-  if [ "${DEVICE}" = "AMD64" ]
-  then
-    sed -i "s#system.automount=1#system.automount=0#g" ${INSTALL}/usr/config/system/configs/system.cfg
-  fi
-
+  
   ### Enable HDMI hotplug service on H700
   if [ "${DEVICE}" = "H700" ]
   then
