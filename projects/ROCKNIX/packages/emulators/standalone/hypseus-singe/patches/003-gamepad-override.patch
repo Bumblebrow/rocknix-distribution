@@ -1,7 +1,7 @@
 diff --git a/start_hypseus.sh b/start_hypseus.sh
 old mode 100755
 new mode 100644
-index 764c1c6576..f025598ce7
+index 764c1c6..0ab1106
 --- a/start_hypseus.sh
 +++ b/start_hypseus.sh
 @@ -13,6 +13,14 @@ name=${name%.*}
@@ -27,4 +27,14 @@ index 764c1c6576..f025598ce7
 +fi # finish bypass auto gamepad
  if [[ -f "${dir}/${name}.commands" ]]; then
      params=$(<"${dir}/${name}.commands")
+ fi
+@@ -79,7 +87,7 @@ fi
+ cd "${config}"
+ 
+ if [[ -f "${dir}/${name}.singe" ]]; then
+-    hypseus singe vldp -framefile "${dir}/${name}.txt" -script "${dir}/${name}.singe" -fullscreen -useoverlaysb 2 $params
++    hypseus singe vldp -framefile "${dir}/${name}.txt" -script "${dir}/${name}.singe" -fullscreen $params
+ else
+-    hypseus "${name}" vldp -framefile "${dir}/${name}.txt" -fullscreen -useoverlaysb 2 $params
++    hypseus "${name}" vldp -framefile "${dir}/${name}.txt" -fullscreen $params
  fi
