@@ -2,7 +2,8 @@
 # Copyright (C) 2024-present ROCKNIX (https://github.com/ROCKNIX)
 
 PKG_NAME="xemu-sa"
-PKG_VERSION="6c5c158b41a8d41cda49cca0fef0208faf31eaa2"
+#PKG_VERSION="6c5c158b41a8d41cda49cca0fef0208faf31eaa2"
+PKG_VERSION="67cc79e663038d1f55448c0f566b37dde016adf6"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/xemu-project/xemu"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
@@ -117,10 +118,12 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/bin
   cp -p ${PKG_BUILD}/dist/xemu ${INSTALL}/usr/bin
   cp -rf ${PKG_DIR}/scripts/start_xemu.sh ${INSTALL}/usr/bin
+  patch ${INSTALL}/usr/bin/start_xemu.sh < ${PKG_DIR}/scripts/004-override-xemu-config.patch
   chmod 755 ${INSTALL}/usr/bin/*
 
   mkdir -p ${INSTALL}/usr/config/xemu
   cp -rf ${PKG_DIR}/config/${DEVICE}/xemu.toml ${INSTALL}/usr/config/xemu
+
 
   #Download HDD IMAGE
   curl -Lo ${INSTALL}/usr/config/xemu/hdd.zip ${PKG_HDD_IMAGE}
