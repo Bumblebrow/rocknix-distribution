@@ -111,6 +111,7 @@ make_target() {
             --disable-parallels \
             --disable-hvf \
             --disable-whpx \
+            --disable-pie \
             --with-default-devices
 }
 
