@@ -15,12 +15,17 @@ CONTROLLER_GUID="03000000${LIST_GUID:8}"
 #030000004c050000e60c000011810000
 
 #Check if eden exists in .config
-if [ ! -d "/storage/.config/eden" ]; then
-    mkdir -p "/storage/.config/eden"
+if [ ! -d "${CONF_DIR}" ]; then
+    mkdir -p "${CONF_DIR}"
         cp -r "/usr/config/eden" "/storage/.config/"
 fi
 
-echo "CONTROLLER_GUID: $CONTROLLER_GUID" > "${LOG_DIR}/${LOG_FILE}"
+if [ -f "${CONF_DIR}/ctl.id" ]; then
+	CONTROLLER_GUID=$(cat "${CONF_DIR}/ctl.id")
+fi
+
+echo "LIST_GUID: $LIST_GUID" > "${LOG_DIR}/${LOG_FILE}"
+echo "CONTROLLER_GUID: $CONTROLLER_GUID" >> "${LOG_DIR}/${LOG_FILE}"
 
 #Copy Eden config at script launch
 if [ -f "${CONF_DIR}/qt-config.override.ini" ] || [ -f "${CONF_DIR}/qt-config.${GAME}.override.ini" ]; then
