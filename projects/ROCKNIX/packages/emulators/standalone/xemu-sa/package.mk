@@ -3,7 +3,8 @@
 
 PKG_NAME="xemu-sa"
 #PKG_VERSION="6c5c158b41a8d41cda49cca0fef0208faf31eaa2"
-PKG_VERSION="67cc79e663038d1f55448c0f566b37dde016adf6"
+#PKG_VERSION="67cc79e663038d1f55448c0f566b37dde016adf6"
+PKG_VERSION="c231997ef0fefc47e535cdb82ff9237c04e85769"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/xemu-project/xemu"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
