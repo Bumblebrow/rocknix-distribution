@@ -1,0 +1,12 @@
+diff --git a/src/vldp/vldp_internal.h b/src/vldp/vldp_internal.h
+index 88450e9..7976e73 100644
+--- a/src/vldp/vldp_internal.h
++++ b/src/vldp/vldp_internal.h
+@@ -27,7 +27,6 @@
+ 
+ #include "vldp.h" // for the VLDP_BOOL definition and SDL.h
+ 
+-#include <mpeg2.h>
+ 
+ // this is which version of the .dat file format we are using
+ #define DAT_VERSION 3

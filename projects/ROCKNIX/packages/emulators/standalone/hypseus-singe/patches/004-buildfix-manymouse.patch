@@ -1,0 +1,12 @@
+diff --git a/src/manymouse/CMakeLists.txt b/src/manymouse/CMakeLists.txt
+index 7c3e66e..bea7692 100644
+--- a/src/manymouse/CMakeLists.txt
++++ b/src/manymouse/CMakeLists.txt
+@@ -1,7 +1,6 @@
+ set( LIB_SOURCES
+     manymouse.c linux_evdev.c macosx_hidmanager.c
+     macosx_hidutilities.c windows_wminput.c
+-    x11_xinput2.c
+ )
+ 
+ set( LIB_HEADERS
