@@ -21,6 +21,7 @@ jobs:
       ENABLE_32BIT: no
       TARGET_TYPE: emus_only
       JAVA_HOME: /usr
+      AUTOREMOVE: "yes"
       PROJECT: ${{ inputs.PROJECT }}
       DEVICE: ${{ inputs.DEVICE }}
       ARCH: aarch64
@@ -155,6 +156,7 @@ jobs:
           export CCACHE_DIR=./build.ROCKNIX-${{ inputs.DEVICE }}.aarch64/.ccache
           ./build.ROCKNIX-${{ inputs.DEVICE }}.aarch64/toolchain/bin/ccache -s -v
           ./build.ROCKNIX-${{ inputs.DEVICE }}.aarch64/toolchain/bin/ccache -M 4.5G
+          ./build.ROCKNIX-${{ inputs.DEVICE }}.aarch64/toolchain/bin/ccache -c
           ./build.ROCKNIX-${{ inputs.DEVICE }}.aarch64/toolchain/bin/ccache -c
           ./build.ROCKNIX-${{ inputs.DEVICE }}.aarch64/toolchain/bin/ccache -s -v
           ./build.ROCKNIX-${{ inputs.DEVICE }}.aarch64/toolchain/bin/ccache -z
