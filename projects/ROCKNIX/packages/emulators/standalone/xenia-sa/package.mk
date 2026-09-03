@@ -3,6 +3,7 @@
 
 PKG_NAME="xenia-sa"
 PKG_VERSION="7010c86fb14f118ee598d3f76010dc0759b9502a"
+PKG_VERSION="f9ed4cd520642f316518394c1bbad33165447693"
 PKG_LICENSE="BSD-3-Clause"
 PKG_SITE="https://github.com/xenia-canary/xenia-canary"
 PKG_URL="${PKG_SITE}.git"
