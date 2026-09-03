@@ -12,6 +12,11 @@ PKG_DEPENDS_HOST="toolchain:host expat:host libclc:host libdrm:host llvm:host Ma
 PKG_DEPENDS_TARGET="toolchain expat libdrm Mako:host pyyaml:host"
 PKG_LONGDESC="Mesa is a 3-D graphics library with an API."
 PKG_PATCH_DIRS+=" ${DEVICE}"
+case "${DEVICE}" in
+  SM8250|SM8550|SM8650|SM8750)
+    PKG_PATCH_DIRS+=" xenia"
+    ;;
+esac
 
 get_graphicdrivers
 
