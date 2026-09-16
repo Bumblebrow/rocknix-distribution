@@ -34,6 +34,7 @@ mkpkg-temp
 # crap
 .DS_Store
 .directory
+.build.sh
 
 # ignore git repos from update scripts
 tools/mkpkg/*.git
@@ -48,3 +49,5 @@ projects/**/*.old
 /.env
 /.es_cache
 /.config
+documentation/PER_DEVICE_DOCUMENTATION/SM8250/SUPPORTED_EMULATORS_AND_CORES.md
+
