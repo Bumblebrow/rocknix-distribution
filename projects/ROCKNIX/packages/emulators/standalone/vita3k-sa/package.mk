@@ -3,7 +3,7 @@
 
 PKG_NAME="vita3k-sa"
 PKG_VERSION="48ddef9356dd50891ac95ed04dd20c5f418afde9"
-PKG_LICENSE="GPL-2.0-or-later""
+PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/Vita3K/Vita3K"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain libevdev SDL2 qt6 mesa libcom-err openssl zlib"
