@@ -1,0 +1,20 @@
+diff --git a/src/manymouse/manymouse.c b/src/manymouse/manymouse.c
+index c2889c2..992d184 100644
+--- a/src/manymouse/manymouse.c
++++ b/src/manymouse/manymouse.c
+@@ -15,7 +15,6 @@ static const char *manymouse_copyright =
+ 
+ extern const ManyMouseDriver *ManyMouseDriver_windows;
+ extern const ManyMouseDriver *ManyMouseDriver_evdev;
+-extern const ManyMouseDriver *ManyMouseDriver_xinput2;
+ extern const ManyMouseDriver *ManyMouseDriver_hidmanager;
+ extern const ManyMouseDriver *ManyMouseDriver_hidutilities;
+ 
+@@ -33,7 +32,6 @@ extern const ManyMouseDriver *ManyMouseDriver_hidutilities;
+ static const ManyMouseDriver **mice_drivers[] =
+ {
+     &ManyMouseDriver_evdev,
+-    &ManyMouseDriver_xinput2,
+     &ManyMouseDriver_windows,
+     &ManyMouseDriver_hidmanager,
+     &ManyMouseDriver_hidutilities
