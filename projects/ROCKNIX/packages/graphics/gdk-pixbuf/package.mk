@@ -28,9 +28,9 @@ pre_configure_target() {
                          -Dinstalled_tests=false \
                          -Dtests=false"
 
-  if [ "${DISPLAYSERVER}" != "x11" ]; then
-    PKG_MESON_OPTS_TARGET+=" -Dbuiltin_loaders=all"
-  fi
+  # Keep loaders as shared modules so GTK can discover PNG and the other
+  # image formats from the installed loaders.cache on Wayland and X11.
+    PKG_MESON_OPTS_TARGET+=" -Dbuiltin_loaders=none"
 
   export TARGET_LDFLAGS="-L${SYSROOT_PREFIX}/usr/lib -lz"
 }
