@@ -6,7 +6,7 @@
 
 . /etc/profile
 
-set_kill set "-9 mupen64plus"
+set_kill set "-9 mupen64plus mupen64plus-simple"
 
 # Emulation Station features
 GAME=$(echo "${1}"| sed "s#^/.*/##")
@@ -57,7 +57,7 @@ fi
 if [ $(echo $1 | grep -i .zip | wc -l) -eq 1 ]; then
     # Unzip the game ROM if needed
     unzip -q -o "$1" -d ${TMP}
-    ROM=$(unzip -Zl -1 "$1")
+    ROM=$(unzip -qql "$1" | head -n1 | cut -c31-)
 else
     cp "$1" ${TMP}
     ROM="${GAME}"
