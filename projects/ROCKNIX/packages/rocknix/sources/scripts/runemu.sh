@@ -8,6 +8,10 @@
 . /etc/profile
 . /etc/os-release
 
+if [ -d /storage/.local/lib ]; then
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/storage/.local/lib
+fi
+
 rm -f /tmp/launch_error.log
 
 ### Switch to performance mode early to speed up configuration and reduce time it takes to get into games.
