@@ -2,8 +2,8 @@
 # Copyright (C) 2026-present ROCKNIX (https://github.com/ROCKNIX)
 
 PKG_NAME="hakux-lr"
-PKG_VERSION="0.13.0"
-PKG_SHA256="c5fee76576bc3c09d254a8b84090ee64eec3a23aff57da4a910d0fd3612407d9"
+PKG_VERSION="0.17.0"
+PKG_SHA256="d2be36ee26ee29696ce75928577b1962417ece99735cc082169ef10fffce7532"
 PKG_ARCH="aarch64"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/portare-ch/hakuX-lr"
