@@ -2,13 +2,14 @@
 # Copyright (C) 2024-present ROCKNIX (https://github.com/ROCKNIX)
 
 PKG_NAME="eden-sa"
-PKG_VERSION="6589019e6b3e4ab68a748d88b97ace3091a6923a" # 260821
+PKG_VERSION="26a03d2473787abf3223b2d0e65b291eee00c1e1" # 261026
 PKG_LICENSE="GPLv2"
 PKG_DEPENDS_TARGET="toolchain llvm:host SDL3 boost libevdev libdrm ffmpeg zlib zstd opus alsa-lib qt6 libfmt"
 PKG_LONGDESC="Eden is a high-performance and easy-to-use emulator, tailored for enthusiasts and developers alike."
-PKG_SITE="https://github.com/UzuCore/eden"
+PKG_SITE="https://github.com/eden-emulator/mirror"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_TOOLCHAIN="manual"
+
 
 if [ ! "${OPENGL}" = "no" ]; then
   PKG_DEPENDS_TARGET+=" ${OPENGL} glu libglvnd"
@@ -43,7 +44,12 @@ make_target() {
   fi
 
   local CPU_FLAGS=""
+  local BUILD_PRESET="generic"
   case "${DEVICE}" in
+    SDM845)
+      CPU_FLAGS="-march=armv8.2-a+crc+crypto -mtune=cortex-a75"
+      BUILD_PRESET="custom"
+      ;;
     SM8250)
       CPU_FLAGS="-march=armv8.2-a+crc+crypto -mtune=cortex-a77"
       ;;
@@ -61,6 +67,9 @@ make_target() {
 
   local OPT_FLAGS="-O3"
   local LTO_FLAGS="-flto=thin -fuse-ld=lld -Wl,--lto-O3"
+  if [ "${DEVICE}" = SDM845 ]; then
+    LTO_FLAGS="-fuse-ld=lld"
+  fi
   local FLAGS_CLEAN="s/-mabi=lp64//g; s/-mcpu=[^ ]*//g; s/-march=[^ ]*//g; s/-mtune=[^ ]*//g"
 
   for _v in CFLAGS CXXFLAGS; do
@@ -78,6 +87,13 @@ make_target() {
 
   mkdir -p "${PKG_BUILD}/.${TARGET_NAME}"
   cd "${PKG_BUILD}/.${TARGET_NAME}"
+
+  local EDEN_C_FLAGS="${CPU_FLAGS} ${OPT_FLAGS}"
+  local EDEN_CXX_FLAGS="${CPU_FLAGS} ${OPT_FLAGS}"
+  if [ "${DEVICE}" = SDM845 ]; then
+    EDEN_C_FLAGS="${CFLAGS}"
+    EDEN_CXX_FLAGS="${CXXFLAGS}"
+  fi
 
   local -a tgt_opts=(
     -G Ninja
@@ -101,15 +117,15 @@ make_target() {
     -DCMAKE_CXX_COMPILER_TARGET=aarch64-rocknix-linux-gnu
     -DCMAKE_ASM_COMPILER="${EDEN_LLVM_BIN}/clang"
     -DCMAKE_ASM_COMPILER_TARGET=aarch64-rocknix-linux-gnu
-    -DCMAKE_C_FLAGS="${CPU_FLAGS} ${OPT_FLAGS}"
-    -DCMAKE_CXX_FLAGS="${CPU_FLAGS} ${OPT_FLAGS}"
+    -DCMAKE_C_FLAGS="${EDEN_C_FLAGS}"
+    -DCMAKE_CXX_FLAGS="${EDEN_CXX_FLAGS}"
 
     -DCMAKE_LINKER="${EDEN_LLVM_BIN}/ld.lld"
     -DCMAKE_AR="${EDEN_LLVM_BIN}/llvm-ar"
     -DCMAKE_RANLIB="${EDEN_LLVM_BIN}/llvm-ranlib"
     -DCMAKE_NM="${EDEN_LLVM_BIN}/llvm-nm"
 
-    -DYUZU_BUILD_PRESET=generic
+    -DYUZU_BUILD_PRESET="${BUILD_PRESET}"
     -DENABLE_QT_TRANSLATION=ON
     -DUSE_DISCORD_PRESENCE=OFF
     -DYUZU_USE_BUNDLED_SIRIT=ON
@@ -130,7 +146,11 @@ make_target() {
 
   cmake "${tgt_opts[@]}" || return 1
 
-  ninja -j$(nproc) || ninja
+  if [ "${DEVICE}" = "SDM845" ]; then
+    ninja -j${CONCURRENCY_MAKE_LEVEL:-6}
+  else
+    ninja -j$(nproc) || ninja
+  fi
 }
 
 makeinstall_target() {
