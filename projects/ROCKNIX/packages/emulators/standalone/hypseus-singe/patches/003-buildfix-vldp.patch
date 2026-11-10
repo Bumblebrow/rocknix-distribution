@@ -1,0 +1,14 @@
+diff --git a/src/vldp/vldp.h b/src/vldp/vldp.h
+index 9e61a8a..5551cb0 100644
+--- a/src/vldp/vldp.h
++++ b/src/vldp/vldp.h
+@@ -33,7 +33,8 @@ extern "C" {
+ // by RDG2010
+ // Ubuntu Linux complains with plain <SDL.h>
+ // But CMake does the right thing here 
+-#include <SDL.h> // only used for threading
++#include <SDL2/SDL.h> // only used for threading
++#include <mpeg2dec/mpeg2.h>
+ 
+ struct yuv_buf {
+     uint8_t *Y;     // Y channel
