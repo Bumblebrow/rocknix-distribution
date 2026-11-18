@@ -1,0 +1,39 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index abb2d21..879ab28 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -55,15 +55,16 @@ include(GNUInstallDirs)
+ include(GetGitRevisionDescription)
+ include(InstallRequiredSystemLibraries)
+ include(FindPkgConfig)
+-include(ExternalProject)
+-include(BuildLibMPEG2)
++#include(ExternalProject)
++#include(BuildLibMPEG2)
+ 
+ set (CMAKE_CXX_STANDARD 11)
+ 
+ PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+ PKG_SEARCH_MODULE(SDL2_TTF REQUIRED SDL2_ttf)
+ PKG_SEARCH_MODULE(SDL2_MIXER REQUIRED SDL2_mixer)
+-build_libmpeg2( )
++PKG_SEARCH_MODULE(MPEG2 REQUIRED libmpeg2)
++#build_libmpeg2( )
+ 
+ message(STATUS "Target: ${CMAKE_SYSTEM_NAME} ${CMAKE_TARGET_ARCHITECTURES}")
+ 
+@@ -117,7 +118,6 @@ add_subdirectory(timer)
+ add_subdirectory(video)
+ add_subdirectory(vldp)
+ 
+-add_dependencies( vldp libmpeg2 )
+ add_dependencies( ldp-out vldp )
+ add_dependencies( game vldp )
+ add_dependencies( sound vldp )
+@@ -165,3 +165,5 @@ set(CPACK_PACKAGE_VERSION_MINOR "${VER_MINOR}")
+ set(CPACK_PACKAGE_VERSION_PATCH "${VER_PATCH}")
+ 
+ include(CPack)
++install(TARGETS hypseus DESTINATION bin)
++install(DIRECTORY ../pics ../fonts ../sound DESTINATION /usr/share/daphne)
+\ No newline at end of file
