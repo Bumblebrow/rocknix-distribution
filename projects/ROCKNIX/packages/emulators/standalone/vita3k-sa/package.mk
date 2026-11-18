@@ -26,25 +26,24 @@ then
   PKG_DEPENDS_TARGET+=" ${VULKAN}"
 fi
 
-pre_configure_target() {
-  case ${TARGET_ARCH} in
-    aarch64)
-      CMAKE_EXTRA_OPTS="-DXXHASH_BUILD_XXHSUM=ON \
-                        -DXXH_X86DISPATCH_ALLOW_AVX=OFF"
-      ;;
-    *)
-      CMAKE_EXTRA_OPTS="-DXXH_X86DISPATCH_ALLOW_AVX=ON"
-      ;;
-  esac
+case ${TARGET_ARCH} in
+  aarch64)
+    CMAKE_EXTRA_OPTS="-DXXHASH_BUILD_XXHSUM=ON \
+                      -DXXH_X86DISPATCH_ALLOW_AVX=OFF"
+    ;;
+  *)
+    CMAKE_EXTRA_OPTS="-DXXH_X86DISPATCH_ALLOW_AVX=ON"
+    ;;
+esac
 
-  PKG_CMAKE_OPTS_TARGET+=" -DCMAKE_BUILD_TYPE=Release \
-                  -DBUILD_SHARED_LIBS=OFF \
-                  -DUSE_DISCORD_RICH_PRESENCE=OFF \
-                  -DUSE_VITA3K_UPDATE=OFF \
-                  ${CMAKE_EXTRA_OPTS}"
-}
+PKG_CMAKE_OPTS_TARGET+=" -DCMAKE_BUILD_TYPE=Release \
+                         -DBUILD_SHARED_LIBS=OFF \
+                         -DUSE_DISCORD_RICH_PRESENCE=OFF \
+                         -DUSE_VITA3K_UPDATE=OFF \
+                         -DUSE_LTO=NEVER \
+                         ${CMAKE_EXTRA_OPTS}"
 
-pre_make_target() {
+post_unpack() {
   # Make sure cross compiliation doesn't fail catastrophically due to include path issues.
   find ${PKG_BUILD} -name flags.make -exec sed -i "s:isystem :I:g" \{} \;
   find ${PKG_BUILD} -name build.ninja -exec sed -i "s:isystem :I:g" \{} \;
@@ -52,7 +51,15 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/bin
-  mkdir -p ${INSTALL}/usr/config/Vita3K
+    cp -a ${PKG_BUILD}/.${TARGET_NAME}/bin/Vita3K ${INSTALL}/usr/bin/vita3k-sa
+    cp -a ${PKG_DIR}/scripts/* ${INSTALL}/usr/bin
+
+  mkdir -p ${INSTALL}/usr/config/vita3k
+    cp -a ${PKG_DIR}/config/config.yml ${INSTALL}/usr/config/vita3k
+    cp -a ${PKG_BUILD}/.${TARGET_NAME}/bin/shaders-builtin ${INSTALL}/usr/config/vita3k
+    cp -a ${PKG_BUILD}/.${TARGET_NAME}/bin/data ${INSTALL}/usr/config/vita3k
+    cp -a ${PKG_BUILD}/.${TARGET_NAME}/bin/lang ${INSTALL}/usr/config/vita3k
+
   mkdir -p ${INSTALL}/storage/bios/vita3k
 
   cp -f ${PKG_BUILD}/.${TARGET_NAME}/bin/Vita3K ${INSTALL}/usr/bin/vita3k-sa
