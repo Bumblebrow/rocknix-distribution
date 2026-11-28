@@ -2,9 +2,8 @@
 # Copyright (C) 2026-present ROCKNIX (https://github.com/ROCKNIX)
 
 PKG_NAME="xenia-sa"
-#PKG_VERSION="c3cd8617b18ef018ea8d638c865e0cced7399846"
-#PKG_VERSION="b709f66556afd507778a0127697ddb9bf56097da"
-PKG_VERSION="96ce1ac47ee7646deac2a2c9c912351e8ff0edee"
+PKG_VERSION="96ce1ac47ee7646deac2a2c9c912351e8ff0edee" # works best
+#PKG_VERSION="352b8761db054623bbdc647a008de58a47af8d7b"
 PKG_LICENSE="BSD-3-Clause"
 PKG_SITE="https://github.com/xenia-canary/xenia-canary"
 PKG_URL="${PKG_SITE}.git"
@@ -13,7 +12,7 @@ PKG_GIT_SUBMODULE_DEPTH="1"
 # Linux/AArch64 dependencies only. Excludes Windows DirectX, x64 JIT, tests,
 # lint tooling and the unused portal backend.
 PKG_GIT_SUBMODULES="third_party/FFmpeg third_party/FidelityFX-CAS third_party/FidelityFX-FSR \
-                    third_party/SDL2 third_party/VulkanMemoryAllocator \
+                    third_party/SDL3 third_party/VulkanMemoryAllocator \
                     third_party/aes_128 third_party/capstone \
                     third_party/cxxopts third_party/date third_party/discord-rpc \
                     third_party/disruptorplus third_party/fmt third_party/glslang \
@@ -23,7 +22,7 @@ PKG_GIT_SUBMODULES="third_party/FFmpeg third_party/FidelityFX-CAS third_party/Fi
                     third_party/xxhash third_party/zarchive third_party/zlib-ng third_party/zstd"
 PKG_LONGDESC="Xenia Canary - Xbox 360 emulator (experimental AArch64 build)."
 PKG_DEPENDS_TARGET="toolchain llvm:host Python3:host glslang:host spirv-tools spirv-tools:host \
-                    vulkan-loader vulkan-headers gtk3 SDL2 alsa-lib lz4 xwayland"
+                    vulkan-loader vulkan-headers gtk3 SDL3 alsa-lib lz4 xwayland"
 PKG_TOOLCHAIN="manual"
 
 make_target() {
@@ -110,5 +109,8 @@ makeinstall_target() {
   cp -v "${PKG_DIR}/scripts/start_xenia.sh" "${INSTALL}/usr/bin/"
   mkdir -p "${INSTALL}/usr/config/xenia"
   cp -v "${PKG_DIR}/config/xenia-canary.config.toml" "${INSTALL}/usr/config/xenia/"
+  if [ -d "${PKG_DIR}/config/content" ]; then
+    cp -a "${PKG_DIR}/config/content" "${INSTALL}/usr/config/xenia/"
+  fi
   chmod 0755 "${INSTALL}/usr/bin/xenia_canary" "${INSTALL}/usr/bin/start_xenia.sh"
 }
